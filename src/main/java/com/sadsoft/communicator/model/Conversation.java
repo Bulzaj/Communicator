@@ -20,7 +20,7 @@ public class Conversation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //@NaturalId
+    @NaturalId
     @JsonIgnore
     private String uniqueConversationsName;
 

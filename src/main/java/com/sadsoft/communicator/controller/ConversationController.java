@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/conversation")
@@ -23,7 +22,7 @@ public class ConversationController {
     private ConversationService conversationService;
 
     @Secured("ROLE_USER")
-    @PostMapping("/sendTo/{receiver}")
+    @PostMapping("/send-to/{receiver}")
     public ResponseEntity<?> sendMessage(Authentication currentUser,
                                          @RequestBody String messageBody,
                                          @PathVariable String receiver) {
