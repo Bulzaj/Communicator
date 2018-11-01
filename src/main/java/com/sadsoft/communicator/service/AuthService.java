@@ -6,14 +6,14 @@ import com.sadsoft.communicator.dao.UserRepository;
 import com.sadsoft.communicator.model.Role;
 import com.sadsoft.communicator.model.RoleName;
 import com.sadsoft.communicator.model.User;
-import com.sadsoft.communicator.model.dto.RegLogModel;
-import com.sun.jndi.toolkit.url.Uri;
+import com.sadsoft.communicator.model.dto.RegLogDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -40,7 +40,7 @@ public class AuthService {
     @Autowired
     BCryptPasswordEncoder encoder;
 
-    public ResponseEntity<?> signUp(RegLogModel input) {
+    public ResponseEntity<?> signUp(RegLogDto input) {
 
         User user;
 
@@ -67,7 +67,7 @@ public class AuthService {
         return ResponseEntity.badRequest().body("Username already taken!");
     }
 
-    public ResponseEntity<?> siginIn(RegLogModel input) {
+    public ResponseEntity<?> siginIn(RegLogDto input) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -80,6 +80,17 @@ public class AuthService {
 
         String jwt = tokenProvider.generateToken(authentication);
         return ResponseEntity.ok("Bearer " + jwt);
+    }
+
+    public User geCurrentUser(Authentication authentication) {
+
+        String username = authentication.getName();
+
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new UsernameNotFoundException(username)
+        );
+
+        return user;
     }
 
     private boolean checkUsernameAccessibility(String username) {

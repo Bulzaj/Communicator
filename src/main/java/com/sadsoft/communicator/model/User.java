@@ -5,7 +5,6 @@ import lombok.Data;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
@@ -38,4 +37,11 @@ public class User extends DateAudit{
 
     )
     private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(
+            mappedBy = "sender",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<Message> sendedMessages = new HashSet<>();
 }
