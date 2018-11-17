@@ -1,0 +1,9 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.centered-form {
+  width: 30%;
+  margin: 50px auto;
+  align-items: center;
+}

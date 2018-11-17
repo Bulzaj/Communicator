@@ -3,26 +3,30 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import {RouterModule, Routes} from "@angular/router";
-import { HomeComponent } from './home/home.component';
 import { RegistrationComponent } from './registration/registration.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {CustomMaterialModule} from "./material.module";
+import {AppRoutingModule} from "./app.routing.module";
+import {FormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
+import {HomeComponent} from "./home/home.component";
 
-const routes : Routes = [
-  {path: 'register', component: RegistrationComponent},
-  {path: 'login', component: LoginComponent},
-  {path: '', component: HomeComponent}
-]
+
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes)
+    BrowserAnimationsModule,
+    CustomMaterialModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

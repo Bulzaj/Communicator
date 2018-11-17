@@ -1,7 +1,28 @@
-<form (submit)="signIn($event)">
-  <input type="text" placeholder="Username">
-  <br>
-  <input type="password" placeholder="Password">
-  <br>
-  <input type="submit">
-</form>
+<mat-card class="centered-form">
+  <mat-card-header>
+    <mat-card-title>Login</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form>
+      <table >
+        <tr>
+          <td>
+            <mat-form-field>
+              <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field>
+              <input matInput type="password" placeholder="password" [(ngModel)]="password" name="password" required>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button (click)="login()" color="primary">Login</button>
+  </mat-card-actions>
+</mat-card>

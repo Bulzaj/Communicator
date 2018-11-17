@@ -6,6 +6,7 @@ import com.sadsoft.communicator.dao.UserRepository;
 import com.sadsoft.communicator.model.Role;
 import com.sadsoft.communicator.model.RoleName;
 import com.sadsoft.communicator.model.User;
+import com.sadsoft.communicator.model.dto.AuthResponseDto;
 import com.sadsoft.communicator.model.dto.RegLogDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -67,7 +68,7 @@ public class AuthService {
         return ResponseEntity.badRequest().body("Username already taken!");
     }
 
-    public ResponseEntity<?> siginIn(RegLogDto input) {
+    public ResponseEntity siginIn(RegLogDto input) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -79,7 +80,7 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok("Bearer " + jwt);
+        return ResponseEntity.ok(new AuthResponseDto(jwt));
     }
 
     public User geCurrentUser(Authentication authentication) {
