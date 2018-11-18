@@ -1,9 +1,78 @@
-.example-spacer {
-  flex: 1 1 auto;
+.main-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: lawngreen;
+  background-color: black;
+  min-height: 100%;
+  font-size: 30px;
 }
 
-.centered-form {
-  width: 30%;
-  margin: 50px auto;
+.inner-container {
+  margin-top: 5%;
+  background-color: black;
+  width: 300px;
+  min-height: 280px;
+  display: flex;
+  justify-content: center;
   align-items: center;
+  flex-direction: column;
+  border: 3px lawngreen solid;
+}
+
+.form-item {
+  display: flex;
+  padding: 12px;
+}
+
+.form-item > input[type=text],
+.form-item > input[type=password]{
+  width: 100%;
+  color: lawngreen;
+  outline: 0;
+  border-width: 0 0 2px;
+  border-color: darkgreen;
+  background-color: black;
+}
+
+.form-item > input::placeholder{
+  color: lawngreen;
+}
+
+.form-item > input[type=submit] {
+  width: 100%;
+  outline: 0;
+  border: 0;
+  background-color: darkgreen;
+  color: black;
+}
+
+.form-item > input[type=submit]:hover {
+  background-color: lawngreen;
+}
+
+.form-item > input[type=submit]:active {
+  background-color: darkgreen;
+}
+
+.form-item > input:focus {
+  border-color: darkgreen;
+}
+
+.form-item > input:hover {
+  border-color: lawngreen;
+}
+
+#error {
+  color: red;
+  visibility: hidden;
+}
+
+#error > h1 {
+  text-align: center;
+}
+
+#error > p {
+  font-size: 20px;
 }

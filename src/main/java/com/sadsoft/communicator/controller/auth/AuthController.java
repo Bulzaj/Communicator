@@ -36,6 +36,7 @@ public class AuthController {
 
     }
 
+
     @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
     @PostMapping(value = "/signin", consumes = "application/json", produces = "application/json")
     public ResponseEntity signin(@Valid @RequestBody RegLogDto input) {

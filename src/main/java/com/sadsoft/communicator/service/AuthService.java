@@ -4,6 +4,8 @@ import com.sadsoft.communicator.config.JwtTokenProvider;
 import com.sadsoft.communicator.dao.ContactsBookRepository;
 import com.sadsoft.communicator.dao.RoleRepository;
 import com.sadsoft.communicator.dao.UserRepository;
+import com.sadsoft.communicator.exceptions.PasswordDoesNotMatchException;
+import com.sadsoft.communicator.exceptions.UserDoesNotExistsException;
 import com.sadsoft.communicator.model.ContactsBook;
 import com.sadsoft.communicator.model.Role;
 import com.sadsoft.communicator.model.RoleName;
@@ -73,17 +75,26 @@ public class AuthService {
 
     public AuthResponseDto siginIn(RegLogDto input) {
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        input.getUsername(),
-                        input.getPassword()
-                )
+        User user = userRepository.findByUsername(input.getUsername()).orElseThrow(
+                () -> new UserDoesNotExistsException("User: " + input.getUsername() + " does not exists")
         );
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (!encoder.matches(input.getPassword(), user.getPassword())) {
+            throw new PasswordDoesNotMatchException("Wrong password");
+        } else {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            input.getUsername(),
+                            input.getPassword()
+                    )
+            );
 
-        String jwt = tokenProvider.generateToken(authentication);
-        return new AuthResponseDto(jwt);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+
+            String jwt = tokenProvider.generateToken(authentication);
+            return new AuthResponseDto(jwt);
+        }
     }
 
     public User geCurrentUser(Authentication authentication) {

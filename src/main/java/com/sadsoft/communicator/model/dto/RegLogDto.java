@@ -2,20 +2,22 @@ package com.sadsoft.communicator.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class RegLogDto {
 
-    @NotNull
-    @Size(min = 3, max = 20)
+    @NotNull(message = "password can't be empty")
+    @Size(min = 3, max = 20, message = "username length should be between 3 and 20")
     private String username;
 
-    @NotNull
-    @Size(min = 5)
+    @NotNull(message = "password can't be emty")
+    @Size(min = 5, message = "Password is too short")
     private String password;
 
 

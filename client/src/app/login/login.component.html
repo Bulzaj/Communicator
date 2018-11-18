@@ -1,28 +1,20 @@
-<mat-card class="centered-form">
-  <mat-card-header>
-    <mat-card-title>Login</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <form>
-      <table >
-        <tr>
-          <td>
-            <mat-form-field>
-              <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <mat-form-field>
-              <input matInput type="password" placeholder="password" [(ngModel)]="password" name="password" required>
-            </mat-form-field>
-          </td>
-        </tr>
-      </table>
-    </form>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button (click)="login()" color="primary">Login</button>
-  </mat-card-actions>
-</mat-card>
+<div class="main-container">
+  <div class="inner-container">
+      <form>
+        <div class="form-item">
+          <input [(ngModel)]="username" name="username" type="text" placeholder="Enter username" required>
+        </div>
+        <div class="form-item">
+          <input [(ngModel)]="password" name="password" type="password" placeholder="and password" required>
+        </div>
+        <div class="form-item" *ngIf="cridentialsLenghtValidator()">
+          <input type="submit" value="Login" (click)="login()">
+        </div>
+      </form>
+
+      <div id="error" [ngStyle]="{'visibility': errors != null ? 'visible' : 'hidden'}">
+        <h1>Error: </h1>
+        <p>{{errors}}</p>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+.flex-container {
+  background-color: black;
+  color: lawngreen;
+  border-bottom: 5px solid lawngreen;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  margin: 0px;
+  padding: 0px;
+}
+
+.button:hover {
+  cursor: pointer;
+  background-color: lawngreen;
+  color: black;
+}
+
+.text {
+  padding: 15px;
+  font-size: 30px;
+}
+
+#logged-out {
+  display: flex;
+  justify-content: space-between;
+}
+
