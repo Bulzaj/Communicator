@@ -1,15 +1,16 @@
 package com.sadsoft.communicator.service;
 
 import com.sadsoft.communicator.config.JwtTokenProvider;
+import com.sadsoft.communicator.dao.ContactsBookRepository;
 import com.sadsoft.communicator.dao.RoleRepository;
 import com.sadsoft.communicator.dao.UserRepository;
+import com.sadsoft.communicator.model.ContactsBook;
 import com.sadsoft.communicator.model.Role;
 import com.sadsoft.communicator.model.RoleName;
 import com.sadsoft.communicator.model.User;
 import com.sadsoft.communicator.model.dto.AuthResponseDto;
 import com.sadsoft.communicator.model.dto.RegLogDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,9 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.Collections;
 import java.util.Date;
 
@@ -33,6 +32,9 @@ public class AuthService {
     private RoleRepository roleRepository;
 
     @Autowired
+    private ContactsBookRepository contactsBookRepository;
+
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -41,11 +43,14 @@ public class AuthService {
     @Autowired
     BCryptPasswordEncoder encoder;
 
-    public ResponseEntity<?> signUp(RegLogDto input) {
+    public User signUp(RegLogDto input) {
 
         User user;
+        ContactsBook contactsBook;
 
         if (checkUsernameAccessibility(input.getUsername())) {
+
+            contactsBook = new ContactsBook();
 
             user = new User();
             user.setUsername(input.getUsername());
@@ -56,19 +61,17 @@ public class AuthService {
 
             user.setRoles(Collections.singleton(role));
             user.setCreatedAt(new Date());
+            user.setContactsBook(contactsBook);
 
+            contactsBookRepository.save(contactsBook);
             User result = userRepository.save(user);
 
-            URI location = ServletUriComponentsBuilder
-                    .fromCurrentContextPath().path("/api/users/{username}")
-                    .buildAndExpand(result.getUsername()).toUri();
-
-            return ResponseEntity.created(location).body("User registered successfully!");
+            return result;
         }
-        return ResponseEntity.badRequest().body("Username already taken!");
+        return null;
     }
 
-    public ResponseEntity siginIn(RegLogDto input) {
+    public AuthResponseDto siginIn(RegLogDto input) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -80,7 +83,7 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new AuthResponseDto(jwt));
+        return new AuthResponseDto(jwt);
     }
 
     public User geCurrentUser(Authentication authentication) {

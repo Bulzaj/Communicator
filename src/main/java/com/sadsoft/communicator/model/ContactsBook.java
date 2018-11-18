@@ -1,24 +1,24 @@
 package com.sadsoft.communicator.model;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.NaturalId;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
-@Table(name = "roles")
+@Getter @Setter
 @NoArgsConstructor
-public class Role {
+public class ContactsBook {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NaturalId
-    @Enumerated(EnumType.STRING)
-    private RoleName rolename;
-
+    @ManyToMany(
+            fetch = FetchType.EAGER
+    )
+    private Set<User> contacts = new HashSet<>();
 }

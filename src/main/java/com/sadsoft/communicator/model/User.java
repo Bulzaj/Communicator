@@ -1,19 +1,24 @@
 package com.sadsoft.communicator.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter @Setter
+@NoArgsConstructor
 @Table(name = "users")
-public class User extends DateAudit{
+public class User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,19 +34,20 @@ public class User extends DateAudit{
     @Size(max = 100)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
+    @CreatedDate
+    private Date createdAt;
 
-    )
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(
+            fetch = FetchType.EAGER,
             mappedBy = "sender",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     private Set<Message> sendedMessages = new HashSet<>();
+
+    @OneToOne
+    private ContactsBook contactsBook;
 }
