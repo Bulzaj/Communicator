@@ -1,12 +1,11 @@
 <nav class="flex-container">
-  <ul *ngIf="!isLoggedIn(); else logged_out">
+  <ul *ngIf="!isAuthenticated(); else logged_out">
     <li class="text button" routerLink="login">Login</li>
     <li class="text button" routerLink="register">Register</li>
   </ul>
   <ng-template  #logged_out>
     <ul id="logged-out">
       <li class="text">Welcome {{username}}</li>
-      <li class="text">Write a message: </li>
       <li class="text button" (click)="logout()">Logout</li>
     </ul>
   </ng-template>

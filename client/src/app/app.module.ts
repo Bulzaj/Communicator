@@ -11,6 +11,7 @@ import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {HomeComponent} from "./home/home.component";
 import {NavbarComponent} from "./navbar/navbar.component";
+import {HttpModule} from "@angular/http";
 
 
 
@@ -28,7 +29,8 @@ import {NavbarComponent} from "./navbar/navbar.component";
     CustomMaterialModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    HttpModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -10,8 +10,8 @@ import {TokenStorageService} from "../services/token-storage.service";
 })
 export class LoginComponent implements OnInit {
 
-   username: string;
-   password: string;
+   username = new String();
+   password = new String();
    errors : string;
 
   constructor(private router: Router,
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
 
   login(): void {
 
-    this.authService.login(this.username, this.password).subscribe(data => {
+    this.authService.login(this.username.toString(), this.password.toString()).subscribe(data => {
       let token;
       token = data.tokenType + " " + data.accessToken;
       this.tokenStorageService.saveToken(token)

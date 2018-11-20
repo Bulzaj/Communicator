@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {TokenStorageService} from "../services/token-storage.service";
 import {AuthService} from "../services/auth.service";
+import {UserService} from "../services/user.service";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-navbar',
@@ -12,24 +14,28 @@ export class NavbarComponent implements OnInit {
   username: string;
 
   constructor(private tokenStorageService: TokenStorageService,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private userService: UserService) { }
 
-  isLoggedIn(): boolean {
-    if (this.tokenStorageService.getToken() != null) {
-      this.authService.getUserDetails().subscribe(data => {
-        this.username = data.username;
-      });
-      return true;
-    } else {
-      return false;
-    }
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
   }
 
   logout(): void {
     this.authService.logout()
   }
 
+  getUsername(): void {
+    if (this.isAuthenticated()) {
+      this.userService.getUserDetails().subscribe(data => {
+        console.log(data.username);
+        this.username =  data.username.toUpperCase();
+      })
+    }
+  }
+
   ngOnInit() {
+    this.getUsername();
   }
 
 }

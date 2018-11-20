@@ -4,8 +4,6 @@ import {TokenStorageService} from "./token-storage.service";
 import {Observable} from "rxjs";
 
 const AUTH_URL = "http://localhost:8080/api/auth/";
-const USER_URL = "http://localhost:8080/api/user";
-
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +28,11 @@ export class AuthService {
 
   }
 
-  public getUserDetails(): Observable<any> {
-    return this.http.get(USER_URL);
+  public isAuthenticated(): boolean {
+    if (this.tokenStorage.getToken() != null) {
+      return true
+    } else {
+      return false
+    }
   }
 }
