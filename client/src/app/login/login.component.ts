@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthService} from "../services/auth.service";
 import {TokenStorageService} from "../services/token-storage.service";
+import {IsAuthenticatedGuard} from "../is-authenticated-guard.service";
 
 @Component({
   selector: 'app-login',
@@ -16,9 +17,11 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router,
               private authService: AuthService,
-              private tokenStorageService: TokenStorageService) { }
+              private tokenStorageService: TokenStorageService,
+              private loginGuard: IsAuthenticatedGuard) { }
 
   ngOnInit() {
+    this.errors = this.loginGuard.getMessage();
   }
 
   login(): void {
@@ -27,6 +30,7 @@ export class LoginComponent implements OnInit {
       let token;
       token = data.tokenType + " " + data.accessToken;
       this.tokenStorageService.saveToken(token)
+      this.errors = "";
       this.router.navigate(['/home'])
     }, err => {
       this.errors = err.error.message

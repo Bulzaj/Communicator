@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {TokenStorageService} from "../services/token-storage.service";
 import {AuthService} from "../services/auth.service";
 import {UserService} from "../services/user.service";
-import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-navbar',

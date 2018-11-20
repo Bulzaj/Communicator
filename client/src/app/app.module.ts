@@ -12,6 +12,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {HomeComponent} from "./home/home.component";
 import {NavbarComponent} from "./navbar/navbar.component";
 import {HttpModule} from "@angular/http";
+import {IsAuthenticatedGuard} from "./is-authenticated-guard.service";
+import {IsUnauthenticatedGuard} from "./is-unauthenticated-guard";
 
 
 
@@ -32,7 +34,7 @@ import {HttpModule} from "@angular/http";
     HttpClientModule,
     HttpModule
   ],
-  providers: [],
+  providers: [IsAuthenticatedGuard, IsUnauthenticatedGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
