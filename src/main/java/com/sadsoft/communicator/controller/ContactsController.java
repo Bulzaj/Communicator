@@ -15,8 +15,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/contacts/{username}")
+@RequestMapping("/api/contacts")
 @PreAuthorize("hasRole('ROLE_USER')")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class ContactsController {
 
     @Autowired
@@ -28,11 +29,10 @@ public class ContactsController {
     @GetMapping(produces = "application/json")
     public ResponseEntity<FriendsListResponseDto> getAllContacts(Authentication authentication) {
 
-        FriendsListResponseDto friendsList = new FriendsListResponseDto();
         User currentUser = authService.geCurrentUser(authentication);
         ContactsBook contactsBook = currentUser.getContactsBook();
 
-        friendsList.setContacts(contactsBook.getContacts());
+        FriendsListResponseDto friendsList = new FriendsListResponseDto(contactsBook);
 
         return ResponseEntity.ok(friendsList);
     }

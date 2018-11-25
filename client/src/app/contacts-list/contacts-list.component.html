@@ -1,3 +1,5 @@
-<p>
-  contacts-list works!
-</p>
+<div>
+  <div class="contact" *ngFor="let contact of contactList">
+    <h1>{{contact.username | uppercase}}</h1>
+  </div>
+</div>

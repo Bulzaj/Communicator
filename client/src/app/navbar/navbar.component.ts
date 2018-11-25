@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {TokenStorageService} from "../services/token-storage.service";
 import {AuthService} from "../services/auth.service";
 import {UserService} from "../services/user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +15,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(private tokenStorageService: TokenStorageService,
               private authService: AuthService,
-              private userService: UserService) { }
+              private userService: UserService,
+              private router: Router) { }
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
@@ -22,6 +24,7 @@ export class NavbarComponent implements OnInit {
 
   logout(): void {
     this.authService.logout()
+    this.router.navigate(["/"]);
   }
 
   getUsername(): void {

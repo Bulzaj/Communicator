@@ -3,3 +3,7 @@
 * {
   font-family: 'VT323', monospace;
 }
+
+body, html {
+  height: 100%;
+}

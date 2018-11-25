@@ -97,6 +97,12 @@ public class AuthService {
         }
     }
 
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(
+                () -> new UsernameNotFoundException("User:" + username + " Does not exists")
+        );
+    }
+
     public User geCurrentUser(Authentication authentication) {
 
         String username = authentication.getName();

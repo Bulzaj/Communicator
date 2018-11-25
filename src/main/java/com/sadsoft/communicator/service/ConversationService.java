@@ -26,12 +26,7 @@ public class ConversationService {
     @Autowired
     private MessageRepository messageRepository;
 
-    @Autowired
-    private AuthService authService;
-
-    public ResponseEntity<?> sendMessage(Authentication authentication, String messageBody, User receiver) {
-
-        User sender = authService.geCurrentUser(authentication);
+    public Message sendMessage(User sender, String messageBody, User receiver) {
 
         Message message = new Message();
         message.setSender(sender);
@@ -46,7 +41,7 @@ public class ConversationService {
         conversationRepository.save(conversation);
         messageRepository.save(message);
 
-        return ResponseEntity.ok("Message successfully sended from: " + sender.getUsername() + " to: " + receiver.getUsername() + ".");
+        return message;
     }
 
     private Conversation conversationInit(String conversationName) {

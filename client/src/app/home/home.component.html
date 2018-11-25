@@ -1,1 +1,13 @@
+<div class="flex-container">
+  <div class="contacts-div" *ngIf="isAuthenticated()">
+    <app-contacts-list></app-contacts-list>
+  </div>
+  <div class="conversation-div" *ngIf="isAuthenticated()">
+    <div class="messages-list">
 
+    </div>
+    <div class="message-editor">
+
+    </div>
+  </div>
+</div>

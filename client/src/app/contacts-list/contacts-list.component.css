@@ -1,0 +1,12 @@
+.contact {
+  border-bottom: 2px lawngreen dashed;
+  text-align: center;
+  color: lawngreen;
+  cursor: pointer;
+}
+
+.contact:hover {
+
+  background-color: darkgreen;
+  color: black;
+}

@@ -1,0 +1,31 @@
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  height: 85%;
+}
+
+.contacts-div {
+  width: 15%;
+  border-right: 2px lawngreen dashed;
+  border-left: 2px lawngreen dashed;
+  border-bottom: 2px lawngreen dashed;
+  margin-left: 2%;
+}
+
+.conversation-div {
+  display: flex;
+  width: 70%;
+  border: 2px lawngreen dashed;
+  border-top-style: none;
+  margin-right: 2%;
+  flex-direction: column;
+}
+
+messages-list {
+  height: 75%;
+}
+
+message-editor{
+  height: 15%;
+}

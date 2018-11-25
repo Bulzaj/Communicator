@@ -18,6 +18,7 @@ export class UserService {
               private tokenStorageService: TokenStorageService) { }
 
   public getUserDetails(): Observable<any> {
+
     let options = {
       headers: this.httpService.createAuthHeader(this.tokenStorageService.getToken())
     };

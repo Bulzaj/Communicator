@@ -14,6 +14,7 @@ import {NavbarComponent} from "./navbar/navbar.component";
 import {HttpModule} from "@angular/http";
 import {IsAuthenticatedGuard} from "./is-authenticated-guard.service";
 import {IsUnauthenticatedGuard} from "./is-unauthenticated-guard";
+import {ContactsListComponent} from "./contacts-list/contacts-list.component";
 
 
 
@@ -23,6 +24,7 @@ import {IsUnauthenticatedGuard} from "./is-unauthenticated-guard";
     LoginComponent,
     RegistrationComponent,
     NavbarComponent,
+    ContactsListComponent,
     HomeComponent
   ],
   imports: [
