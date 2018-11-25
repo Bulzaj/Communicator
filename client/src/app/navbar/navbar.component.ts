@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {TokenStorageService} from "../services/token-storage.service";
 import {AuthService} from "../services/auth.service";
 import {UserService} from "../services/user.service";
@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnChanges {
 
   username: string;
 
@@ -37,6 +37,10 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+
+  }
+
+  ngOnChanges() {
     this.getUsername();
   }
 

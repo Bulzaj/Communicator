@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {CustomMaterialModule} from "./material.module";
 import {AppRoutingModule} from "./app.routing.module";
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
@@ -15,6 +14,7 @@ import {HttpModule} from "@angular/http";
 import {IsAuthenticatedGuard} from "./is-authenticated-guard.service";
 import {IsUnauthenticatedGuard} from "./is-unauthenticated-guard";
 import {ContactsListComponent} from "./contacts-list/contacts-list.component";
+import {MessagesListComponent} from "./messages-list/messages-list.component";
 
 
 
@@ -30,7 +30,6 @@ import {ContactsListComponent} from "./contacts-list/contacts-list.component";
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    CustomMaterialModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,

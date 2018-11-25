@@ -44,6 +44,20 @@ public class ConversationService {
         return message;
     }
 
+    public Conversation getMessages(User sender, User receiver) {
+
+        Set<Message> messages = new HashSet<>();
+        Conversation conversation;
+        String conversationName = conversationsNameGenerator(sender, receiver);
+
+        conversation = conversationRepository.findByUniqueConversationsName(conversationName).orElseGet(
+                () -> {
+                    return null;
+                }
+        );
+        return conversation;
+    }
+
     private Conversation conversationInit(String conversationName) {
 
         Conversation conversation = conversationRepository.findByUniqueConversationsName(conversationName).orElseGet(
@@ -54,7 +68,7 @@ public class ConversationService {
         return conversation;
     }
 
-    private String conversationsNameGenerator(@NotNull  User participant1, @NotNull  User participant2) {
+    public String conversationsNameGenerator(@NotNull  User participant1, @NotNull  User participant2) {
 
         String conversationName = "";
         List<String> tmp = new ArrayList<>();

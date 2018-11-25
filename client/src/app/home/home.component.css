@@ -6,26 +6,90 @@
 }
 
 .contacts-div {
-  width: 15%;
-  border-right: 2px lawngreen dashed;
-  border-left: 2px lawngreen dashed;
-  border-bottom: 2px lawngreen dashed;
-  margin-left: 2%;
+  width: 28%;
+  border-right: 2px lawngreen solid;
+  border-left: 2px lawngreen solid;
+  border-bottom: 2px lawngreen solid;
+  margin-left: 1%;
+  margin-right: 1%;
 }
 
 .conversation-div {
   display: flex;
-  width: 70%;
-  border: 2px lawngreen dashed;
+  width: 68%;
+  border: 2px lawngreen solid;
   border-top-style: none;
-  margin-right: 2%;
   flex-direction: column;
+  margin-right: 1%;
+  margin-left: 1%;
 }
 
-messages-list {
-  height: 75%;
+.messages-list {
+  height: 100%;
+  border-bottom: 2px lawngreen solid;
 }
 
-message-editor{
-  height: 15%;
+.message-editor{
+  width: 100%;
 }
+
+.message-editor > form > input[type=text] {
+  color: lawngreen;
+  width: 85%;
+  background-color: black;
+  outline: 0;
+  border-width: 0 0 0 0;
+  font-size: 20px;
+  padding-left: 12px;
+}
+
+.message-editor > form > input[type=text]::placeholder {
+  color: darkgreen;
+}
+
+.message-editor > form > input[type=button] {
+  background-color: black !important;
+  color: lawngreen;
+  width: 15%;
+  height: 100%;
+  background-color: black;
+  outline: 0;
+  border-top: 0;
+  border-bottom: 0;
+  border-right: 0;
+  border-left: 2px lawngreen solid;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+.message-editor > form > input[type=button]:hover {
+  background-color: lawngreen !important;
+  color: black;
+}
+
+.message-editor > form > input[type=button]:active {
+  background-color: black !important;
+  border: 2px lawngreen solid;
+  color: lawngreen;
+  margin: 0;
+  padding: 0;
+}
+
+.messages-list-header {
+  color: lawngreen;
+  padding: 5px;
+  border-bottom: 2px lawngreen solid;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.message {
+  display: flex;
+  height: 50px;
+  width: 100%;
+  border-bottom: 2px lawngreen dashed;
+}
+
+

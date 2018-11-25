@@ -7,6 +7,12 @@
 
 .contact:hover {
 
+  background-color: lawngreen;
+  color: black;
+}
+
+.contact:active {
+
   background-color: darkgreen;
   color: black;
 }

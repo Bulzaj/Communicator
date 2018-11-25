@@ -48,14 +48,6 @@ public class CommunicatorApplication {
             contactsBookService.addUserToContactsBook(currentUser, "miska");
             contactsBookService.addUserToContactsBook(currentUser, "bulzaj");
             contactsBookService.addUserToContactsBook(currentUser, "kusy");
-
-            conversationService.sendMessage(currentUser, "Test Message",receiver);
-            conversationService.sendMessage(currentUser, "Test Message 2",receiver);
-            conversationService.sendMessage(currentUser, "Test Message 3",receiver);
-
-            conversationService.sendMessage(newSender, "Test Message 4",newReceiver);
-
-
         };
     }
 }

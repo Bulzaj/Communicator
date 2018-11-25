@@ -1,5 +1,6 @@
 package com.sadsoft.communicator.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class Message {
     @JoinColumn(name = "sender_id")
     private User sender;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "conversation_id")
     private Conversation conversation;
