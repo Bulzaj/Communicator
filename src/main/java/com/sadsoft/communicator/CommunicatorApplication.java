@@ -44,10 +44,16 @@ public class CommunicatorApplication {
             User newReceiver = userRepository.findByUsername("kusy").get();
 
             contactsBookService.addUserToContactsBook(currentUser, "fasla");
-            contactsBookService.addUserToContactsBook(currentUser, "kusy");
             contactsBookService.addUserToContactsBook(currentUser, "miska");
             contactsBookService.addUserToContactsBook(currentUser, "bulzaj");
-            contactsBookService.addUserToContactsBook(currentUser, "kusy");
+
+            currentUser = userRepository.findByUsername("fasla").get();
+            contactsBookService.addUserToContactsBook(currentUser, "bulzaj");
+            contactsBookService.addUserToContactsBook(currentUser, "miska");
+
+            currentUser = userRepository.findByUsername("miska").get();
+            contactsBookService.addUserToContactsBook(currentUser, "bulzaj");
+            contactsBookService.addUserToContactsBook(currentUser, "fasla");
         };
     }
 }

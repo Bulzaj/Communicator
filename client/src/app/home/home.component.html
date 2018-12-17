@@ -1,21 +1,15 @@
 <div class="flex-container">
   <div class="contacts-div" *ngIf="isAuthenticated()">
-    <app-contacts-list (messageEvent)="receiveMessage($event)"></app-contacts-list>
+    <app-contacts-list></app-contacts-list>
   </div>
   <div class="conversation-div" *ngIf="isAuthenticated()">
+
     <div class="messages-list">
-      <div class="messages-list-header">
-        <h1>{{receiversName | uppercase}}</h1>
-      </div>
-      <div class="message" *ngFor="let message of messagesList">
-        <p>{{message.messageBody}}</p>
-      </div>
+      <app-messages></app-messages>
     </div>
+
     <div class="message-editor">
-      <form>
-        <input [(ngModel)]="message.messageBody" name="messageBody" type="text" placeholder="--> Write a message here <--" >
-        <input type="button" value="Send" (click)="send()">
-      </form>
+      <app-message-editor></app-message-editor>
     </div>
   </div>
 </div>

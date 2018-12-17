@@ -1,6 +1,7 @@
 package com.sadsoft.communicator.controller;
 
 import com.sadsoft.communicator.model.User;
+import com.sadsoft.communicator.model.dto.UserResponseDto;
 import com.sadsoft.communicator.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class UserController {
 
     @Autowired
@@ -21,10 +23,10 @@ public class UserController {
     @GetMapping
     @Secured("ROLE_USER")
     @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
-    public ResponseEntity<User> getUserDetails(Authentication authentication) {
+    public ResponseEntity<UserResponseDto> getUserDetails(Authentication authentication) {
 
         User currentUser = authService.geCurrentUser(authentication);
 
-        return ResponseEntity.ok(currentUser);
+        return ResponseEntity.ok(new UserResponseDto(currentUser));
     }
 }

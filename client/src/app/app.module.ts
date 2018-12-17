@@ -14,7 +14,9 @@ import {HttpModule} from "@angular/http";
 import {IsAuthenticatedGuard} from "./is-authenticated-guard.service";
 import {IsUnauthenticatedGuard} from "./is-unauthenticated-guard";
 import {ContactsListComponent} from "./contacts-list/contacts-list.component";
-import {MessagesListComponent} from "./messages-list/messages-list.component";
+import {MessagesComponent} from "./messages/messages.component";
+import {MessageEditorComponent} from "./message-editor/message-editor.component";
+import {WebsocketTestComponent} from "./websocket-test/websocket-test.component";
 
 
 
@@ -25,7 +27,10 @@ import {MessagesListComponent} from "./messages-list/messages-list.component";
     RegistrationComponent,
     NavbarComponent,
     ContactsListComponent,
-    HomeComponent
+    MessagesComponent,
+    MessageEditorComponent,
+    HomeComponent,
+    WebsocketTestComponent
   ],
   imports: [
     BrowserModule,

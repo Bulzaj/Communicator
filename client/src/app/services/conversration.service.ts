@@ -1,26 +1,26 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
-import {TokenStorageService} from "./token-storage.service";
 import {HttpService} from "./http.service";
-import {UserModel} from "../model/user.model";
+import {TokenStorageService} from "./token-storage.service";
+import {HttpClient} from "@angular/common/http";
 
-const USER_URL = "http://localhost:8080/api/user/";
+const CONVERSATIONS_NAME_URL = "http://localhost:8080/api/conversation/get-name/";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class ConversrationService {
 
   constructor(private httpService: HttpService,
               private tokenStorageService: TokenStorageService,
               private httpClient: HttpClient) { }
 
-  public getCurrentUser(): Observable<UserModel> {
+  public getConversationsName(receiversName: string): Observable<any> {
+
     let options = {
       headers: this.httpService.createAuthHeader(this.tokenStorageService.getToken())
     };
 
-    return this.httpClient.get<UserModel>(USER_URL, options);
+    return this.httpClient.get(CONVERSATIONS_NAME_URL + receiversName, options)
   }
 }

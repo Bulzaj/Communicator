@@ -5,7 +5,7 @@
   </ul>
   <ng-template  #logged_out>
     <ul id="logged-out">
-      <li class="text">Welcome {{username}}</li>
+      <li class="text">Welcome {{username | uppercase}}</li>
       <li class="text button" (click)="logout()">Logout</li>
     </ul>
   </ng-template>

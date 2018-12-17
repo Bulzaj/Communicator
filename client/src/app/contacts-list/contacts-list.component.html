@@ -1,5 +1,5 @@
 <div>
-  <div class="contact" *ngFor="let contact of contactList; let i=index" (click)="getContact(i)">
+  <div class="contact" *ngFor="let contact of contactList.contacts" (click)="getReceiver(contact.username)">
     <h1>{{contact.username | uppercase}}</h1>
   </div>
 </div>

@@ -3,12 +3,14 @@ package com.sadsoft.communicator.controller;
 import com.sadsoft.communicator.model.ContactsBook;
 import com.sadsoft.communicator.model.User;
 import com.sadsoft.communicator.model.dto.FriendsListResponseDto;
+import com.sadsoft.communicator.model.dto.UserResponseDto;
 import com.sadsoft.communicator.service.AuthService;
 import com.sadsoft.communicator.service.ContactsBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -37,6 +39,21 @@ public class ContactsController {
         return ResponseEntity.ok(friendsList);
     }
 
+    @GetMapping(produces = "application/json")
+    @RequestMapping("/{contactsName}")
+    public ResponseEntity<UserResponseDto> getContact(@PathVariable String contactsName) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = authService.geCurrentUser(authentication);
+
+        try {
+            return ResponseEntity.ok(new UserResponseDto(contactsBookService.getContact(currentUser, contactsName)));
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        return null;
+    }
+
     @PostMapping
     public ResponseEntity<?> createNewContact(Authentication authentication, @RequestBody String input) {
 
@@ -51,7 +68,7 @@ public class ContactsController {
                     .buildAndExpand(input)
                     .toUri();
 
-            return ResponseEntity.created(location).body("New contact added succesfully!");
+            return ResponseEntity.created(location).body("New receiver added succesfully!");
         } catch (Exception e) {
             e.printStackTrace();
         }

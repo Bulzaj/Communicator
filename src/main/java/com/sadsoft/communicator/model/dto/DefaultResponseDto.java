@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SimpleMessageResponseDto {
+public class DefaultResponseDto {
 
     private String message;
+
 }

@@ -1,7 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ContactListService} from "../services/contact-list.service";
-import {stringify} from "querystring";
 import {UserModel} from "../model/user.model";
+import {ContactListModel} from "../model/contact-list.model";
+
 
 @Component({
   selector: 'app-contacts-list',
@@ -10,28 +11,25 @@ import {UserModel} from "../model/user.model";
 })
 export class ContactsListComponent implements OnInit {
 
-  contactList: Array<UserModel>;
-  contact: UserModel;
+  contactList: ContactListModel;
+  receiver: UserModel;
 
-  @Output()
-  messageEvent = new EventEmitter<UserModel>();
+  constructor(private contactListService: ContactListService) {
+  }
 
-  constructor(private contactListService: ContactListService) { }
+  getContacts() {
+    this.contactList = this.contactListService.getContacts();
+  }
 
-  private getContacts() {
-    this.contactListService.getContacts().subscribe(data => {
-      this.contactList = data.contacts;
-      console.log(this.contactList)
-    })
+  getReceiver(contactsName: string) {
+    this.contactListService.getReceiver(contactsName).subscribe((data: UserModel) => {
+      this.receiver = new UserModel(data.id, data.username, data.createdAt);
+      this.contactListService.updateSubject(this.receiver);
+    });
   }
 
   ngOnInit() {
     this.getContacts();
-  }
-
-  getContact(i: number) {
-    this.contact = this.contactList[i];
-    this.messageEvent.emit(this.contact)
   }
 
 }

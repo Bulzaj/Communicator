@@ -19,6 +19,9 @@ public class ContactsBookService {
     @Autowired
     private ContactsBookRepository contactsBookRepository;
 
+    @Autowired
+    private AuthService authService;
+
     public User addUserToContactsBook(User currentUser, String newContactUsername) throws Exception {
 
         User newContact = userRepository.findByUsername(newContactUsername).orElseThrow(
@@ -63,11 +66,27 @@ public class ContactsBookService {
         return null;
     }
 
-    public Set<User> getAllContacts(User currentUser) {
+    public User getContact(User currentUser, String contactsName) throws Exception {
+
+        ContactsBook contactsBook = contactsBookRepository.findById(currentUser.getId()).orElseThrow(
+                () -> new Exception("Contacts Book does not exists")
+        );
+
+        User contact = authService.getUserByUsername(contactsName);
+
+        if (contactsBook.getContacts().contains(contact)) {
+            for (User result: contactsBook.getContacts()) {
+                if (result.equals(contact)) return contact;
+            }
+        }
+        return null;
+    }
+
+    /*public Set<User> getAllContacts(User currentUser) {
 
         return userRepository.findByUsername(currentUser.getUsername())
                 .get()
                 .getContactsBook()
                 .getContacts();
-    }
+    }*/
 }

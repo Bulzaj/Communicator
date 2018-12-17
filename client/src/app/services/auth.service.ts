@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {TokenStorageService} from "./token-storage.service";
 import {Observable} from "rxjs";
+import {HttpService} from "./http.service";
 
 const AUTH_URL = "http://localhost:8080/api/auth/";
 
@@ -10,14 +11,14 @@ const AUTH_URL = "http://localhost:8080/api/auth/";
 })
 export class AuthService {
 
-  constructor(private http: HttpClient,
+  constructor(private httpClient: HttpClient,
               private tokenStorage: TokenStorageService) { }
 
   public login(username: string, password: string): Observable<any>{
 
     const cridentials = {username: username, password: password};
 
-    return this.http.post(AUTH_URL+"signin", cridentials)
+    return this.httpClient.post(AUTH_URL+"signin", cridentials)
   }
 
   public logout() {
@@ -35,4 +36,6 @@ export class AuthService {
       return false
     }
   }
+
+
 }

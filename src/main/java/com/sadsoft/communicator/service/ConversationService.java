@@ -26,7 +26,7 @@ public class ConversationService {
     @Autowired
     private MessageRepository messageRepository;
 
-    public Message sendMessage(User sender, String messageBody, User receiver) {
+    public Message saveMessage(User sender, String messageBody, User receiver) {
 
         Message message = new Message();
         message.setSender(sender);
@@ -56,6 +56,17 @@ public class ConversationService {
                 }
         );
         return conversation;
+    }
+
+    public Message getLastMessage(Conversation conversation) {
+
+        Iterator<Message> iterator = conversation.getMessages().iterator();
+        Message lastMessage = iterator.next();
+
+        while(iterator.hasNext()) {
+            lastMessage = iterator.next();
+        }
+        return lastMessage;
     }
 
     private Conversation conversationInit(String conversationName) {
