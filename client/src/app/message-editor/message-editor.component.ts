@@ -3,6 +3,9 @@ import {MessageModel} from "../model/message.model";
 import {WebsocketService} from "../services/websocket.service";
 import {UserModel} from "../model/user.model";
 import {ContactListService} from "../services/contact-list.service";
+import {ConversrationService} from "../services/conversration.service";
+import {ConversationModel} from "../model/conversation.model";
+import {UserService} from "../services/user.service";
 
 @Component({
   selector: 'app-message-editor',
@@ -14,13 +17,19 @@ export class MessageEditorComponent implements OnInit {
   messageBody: " ";
   message: MessageModel;
   receiver: UserModel;
+  currentUser: UserModel;
+  conversation: ConversationModel;
 
   constructor(private websocketService: WebsocketService,
-              private contactListService: ContactListService) {
+              private contactListService: ContactListService,
+              private conversationService: ConversrationService,
+              private userService: UserService) {
   }
 
   ngOnInit() {
     this.getReciever();
+    this.getConversation();
+    this.getCurrentUser();
   }
 
   getReciever() {
@@ -29,11 +38,26 @@ export class MessageEditorComponent implements OnInit {
     });
   }
 
-  sendMessage() {
-    this.websocketService.sendMessage(this.messageBody);
+  getConversation() {
+    this.conversationService.getConversationAsObservable().subscribe(data => {
+      this.conversation = new ConversationModel(data.conversationsName, data.messages)
+    })
   }
 
-  isReceiverChoosed(): boolean {
+  getCurrentUser() {
+    this.userService.getCurrentUser().subscribe(data => {
+      this.currentUser = new UserModel(data.id, data.username, data.createdAt);
+    })
+  }
+
+  sendMessage() {
+    this.conversationService.sendMessage(this.receiver.username, this.messageBody).subscribe(data => {
+      this.message = new MessageModel(data.sendersName, data.messageBody, data.createdAt);
+    });
+    this.websocketService.sendMessage(this.messageBody, this.conversation.conversationsName);
+  }
+
+  isReceiver(): boolean {
     if (this.receiver) {
       return true;
     } return false;

@@ -4,7 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {HttpService} from "./http.service";
 import {TokenStorageService} from "./token-storage.service";
 
-const CONVERSATION_HISTORY_URL = "http://localhost:8080/api/conversation/history";
+const CONVERSATION_HISTORY_URL = "http://localhost:8080/api/conversationSubject/history";
 
 @Injectable({
   providedIn: 'root'

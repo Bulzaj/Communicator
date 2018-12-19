@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as Stomp from 'stompjs';
-import {ConversrationService} from "./conversration.service";
+import {MessageModel} from "../model/message.model";
+import {ConversationModel} from "../model/conversation.model";
 
 const HANDSHAKE_URL = "ws://localhost:8080/socket";
 
@@ -10,46 +11,30 @@ const HANDSHAKE_URL = "ws://localhost:8080/socket";
 export class WebsocketService {
 
   private _stomp;
-  private _messages: string[] = [];
   private _errors: string[] = [];
-  private  conversationsName: string;
 
 
-  constructor(private conversationService: ConversrationService) {
-
+  constructor() {
   }
 
-  public connect(receiversName: string) {
-
-    let i = 0;
-    console.log("runs" + i);
-    i++;
-
-    this.conversationService.getConversationsName(receiversName).subscribe(data => {
-      this.conversationsName = data.message;
+  public connect() {
+    if (!this._stomp) {
       let ws = new WebSocket(HANDSHAKE_URL);
       this._stomp = Stomp.over(ws);
-
       this._stomp.connect({}, (frame) => {
-        this._stomp.subscribe("/queue/" + this.conversationsName, (message) => {
-          this._messages.push(message.body);
-        });
-        this._stomp.subscribe("/errors", (error) => {
-          this._errors.push(error.body);
-        })
-      }, (error) => {
-        alert("Error " + error)
-      });
-    });
+        console.log(frame);
+      })
+    }
   }
 
-  public sendMessage(message: string) {
-    console.log("Conversation's name" + this.conversationsName);
-    this._stomp.send("/app/" + this.conversationsName, {}, message);
+  public subscribe(conversationsName: string, onMessage: (message: MessageModel) => void) {
+    if (this._stomp != null) {
+      this._stomp.subscribe("/queue/" + conversationsName, onMessage);
+    }
   }
 
-  get messages(): string[] {
-    return this._messages;
+  public sendMessage(message: string, conversationsName: string) {
+    this._stomp.send("/app/" + conversationsName, {}, message);
   }
 
   get errors(): string[] {

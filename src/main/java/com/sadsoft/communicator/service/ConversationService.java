@@ -2,9 +2,11 @@ package com.sadsoft.communicator.service;
 
 import com.sadsoft.communicator.dao.ConversationRepository;
 import com.sadsoft.communicator.dao.MessageRepository;
+import com.sadsoft.communicator.exceptions.ConversationDoseNotExistsException;
 import com.sadsoft.communicator.model.Conversation;
 import com.sadsoft.communicator.model.Message;
 import com.sadsoft.communicator.model.User;
+import com.sadsoft.communicator.model.dto.ConversationResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -44,18 +46,9 @@ public class ConversationService {
         return message;
     }
 
-    public Conversation getMessages(User sender, User receiver) {
+    public Conversation getConversation(User currentUser, User receiver) {
 
-        Set<Message> messages = new HashSet<>();
-        Conversation conversation;
-        String conversationName = conversationsNameGenerator(sender, receiver);
-
-        conversation = conversationRepository.findByUniqueConversationsName(conversationName).orElseGet(
-                () -> {
-                    return null;
-                }
-        );
-        return conversation;
+        return conversationInit(conversationsNameGenerator(currentUser, receiver));
     }
 
     public Message getLastMessage(Conversation conversation) {
@@ -67,6 +60,12 @@ public class ConversationService {
             lastMessage = iterator.next();
         }
         return lastMessage;
+    }
+
+    public Conversation getConversationByConversationsName(String conversationsName) {
+        return conversationRepository.findByUniqueConversationsName(conversationsName).orElseThrow(
+                () -> new ConversationDoseNotExistsException(conversationsName)
+        );
     }
 
     private Conversation conversationInit(String conversationName) {

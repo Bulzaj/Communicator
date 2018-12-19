@@ -25,7 +25,7 @@ export class WebsocketTestComponent implements OnInit {
       this.ws.subscribe("/errors", (message) => {
         alert("Error " + message.body)
       });
-      this.ws.subscribe("/conversation/reply", (message) => {
+      this.ws.subscribe("/conversationSubject/reply", (message) => {
         console.log(message);
         this.showGreeting(message.body)
       });

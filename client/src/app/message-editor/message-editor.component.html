@@ -1,4 +1,4 @@
-<div *ngIf="isReceiverChoosed()">
+<div *ngIf="isReceiver()">
   <form>
     <input [(ngModel)]="messageBody" name="messageBody" type="text" placeholder="--> Write a message here <--" >
     <input type="button" value="Send" (click)="this.sendMessage()">

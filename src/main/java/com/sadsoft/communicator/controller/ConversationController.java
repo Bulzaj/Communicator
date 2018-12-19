@@ -1,9 +1,10 @@
 package com.sadsoft.communicator.controller;
 
-import com.sadsoft.communicator.model.Conversation;
+import com.sadsoft.communicator.model.Message;
 import com.sadsoft.communicator.model.User;
 import com.sadsoft.communicator.model.dto.ConversationResponseDto;
 import com.sadsoft.communicator.model.dto.DefaultResponseDto;
+import com.sadsoft.communicator.model.dto.MessageDto;
 import com.sadsoft.communicator.service.AuthService;
 import com.sadsoft.communicator.service.ConversationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +27,13 @@ public class ConversationController {
     private AuthService authService;
 
     @GetMapping("/{receiversName}")
-    public ResponseEntity<?> getConversation(@PathVariable String receiversName) {
+    public ResponseEntity<ConversationResponseDto> getConversation(@PathVariable String receiversName) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User sender = authService.geCurrentUser(authentication);
         User receiver = authService.getUserByUsername(receiversName);
 
-        Conversation conversation = conversationService.getMessages(sender, receiver);
-
-        if (conversation != null) {
-            return ResponseEntity.ok(new ConversationResponseDto(conversation));
-        }
-
-        return  ResponseEntity.ok(new DefaultResponseDto("You have not any messages yet"));
+        return ResponseEntity.ok(new ConversationResponseDto(conversationService.getConversation(sender, receiver)));
     }
 
     @GetMapping("/get-name/{receiversName}")
@@ -51,6 +46,16 @@ public class ConversationController {
         return ResponseEntity.ok(new DefaultResponseDto(conversationService.conversationsNameGenerator(sender, receiver)));
     }
 
+    @PostMapping(value = "/send-to/{receiversName}", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<MessageDto> saveMessage(@PathVariable String receiversName,
+                                                  @RequestBody String messageBody) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = authService.geCurrentUser(authentication);
+        User receiver = authService.getUserByUsername(receiversName);
+
+        Message message = conversationService.saveMessage(currentUser, messageBody, receiver);
+        return ResponseEntity.ok(new MessageDto(message));
+    }
 
 }

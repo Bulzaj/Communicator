@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../services/auth.service";
+import {WebsocketService} from "../services/websocket.service";
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,8 @@ import {AuthService} from "../services/auth.service";
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,
+              private websocketService: WebsocketService) {
   }
 
   isAuthenticated(): boolean {
@@ -16,5 +18,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.websocketService.connect()
   }
 }

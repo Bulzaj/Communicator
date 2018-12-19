@@ -1,19 +1,17 @@
 package com.sadsoft.communicator.controller;
 
+import com.sadsoft.communicator.model.Conversation;
 import com.sadsoft.communicator.model.Message;
-import com.sadsoft.communicator.model.User;
-import com.sadsoft.communicator.model.dto.MessageResponseDto;
+import com.sadsoft.communicator.model.dto.MessageDto;
 import com.sadsoft.communicator.service.AuthService;
 import com.sadsoft.communicator.service.ConversationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class SendMessageWebsocketController {
+public class WebsocketConversationController {
 
     @Autowired
     private AuthService authService;
@@ -24,11 +22,15 @@ public class SendMessageWebsocketController {
     @Autowired
     private SimpMessagingTemplate template;
 
-    @MessageMapping("/{receiversName}")
-    public void processMessageFromClient(@Payload String messageBody,
-                                           @DestinationVariable String receiversName) {
+    @MessageMapping("/{conversationsName}")
+    public void processMessageFromClient(@Payload String message,
+                                           @DestinationVariable String conversationsName) {
 
-        template.convertAndSend("/queue/"+receiversName, messageBody);
+        Conversation conversation = conversationService.getConversationByConversationsName(conversationsName);
+        Message lastMessage = conversationService.getLastMessage(conversation);
+        MessageDto messageDto = new MessageDto(lastMessage);
+
+        template.convertAndSend("/queue/"+conversationsName, messageDto);
     }
 
     @MessageExceptionHandler

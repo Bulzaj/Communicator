@@ -12,11 +12,13 @@ import java.util.Set;
 @NoArgsConstructor
 public class ConversationResponseDto {
 
-    private Set<MessageResponseDto> messages = new HashSet<>();
+    private String conversationsName;
+    private Set<MessageDto> messages = new HashSet<>();
 
     public ConversationResponseDto(Conversation conversation) {
+        conversationsName = conversation.getUniqueConversationsName();
         for (Message message:conversation.getMessages()) {
-            messages.add(new MessageResponseDto(message));
+            messages.add(new MessageDto(message));
         }
     }
 }
