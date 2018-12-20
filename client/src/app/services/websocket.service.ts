@@ -27,7 +27,7 @@ export class WebsocketService {
     }
   }
 
-  public subscribe(conversationsName: string, onMessage: (message: MessageModel) => void) {
+  public subscribe(conversationsName: string, onMessage: (message) => void) {
     if (this._stomp != null) {
       this._stomp.subscribe("/queue/" + conversationsName, onMessage);
     }

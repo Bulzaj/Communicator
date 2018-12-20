@@ -32,7 +32,7 @@ public class ConversationService {
 
         Message message = new Message();
         message.setSender(sender);
-        message.setMessageBody(encoder.encode(messageBody));
+        message.setMessageBody(messageBody);
         message.setCreatedAt(new Date());
 
         String conversationName = conversationsNameGenerator(sender, receiver);

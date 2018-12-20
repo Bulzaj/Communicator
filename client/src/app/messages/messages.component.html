@@ -1,7 +1,9 @@
 <div class="messages-list-header">
   <h1>{{showReceiversName() | uppercase}}</h1>
 </div>
-<div class="message" *ngFor="let message of showMessages()">
-  <p>{{message.messageBody}}</p>
+<div class="messages">
+  <div class="message" *ngFor="let message of showMessages()">
+    <p>{{message.messageBody}}</p>
+  </div>
 </div>
 

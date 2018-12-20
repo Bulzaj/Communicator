@@ -53,10 +53,6 @@ export class ConversrationService {
       headers: this.httpService.createAuthHeader(this.tokenStorageService.getToken())
     };
 
-    let body = {
-      messageBody: messageBody
-    };
-
-    return this.httpClient.post<MessageModel>(CONVERSATION_URL+"send-to/"+receiversName, body, options);
+    return this.httpClient.post<MessageModel>(CONVERSATION_URL+"send-to/"+receiversName, messageBody, options);
   }
 }
