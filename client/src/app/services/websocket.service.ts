@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as Stomp from 'stompjs';
+import {MessageModel} from "../model/message.model";
 
 const HANDSHAKE_URL = "ws://localhost:8080/socket";
 
@@ -32,7 +33,7 @@ export class WebsocketService {
     }
   }
 
-  public sendMessage(message: string, conversationsName: string) {
+  public sendMessage(message, conversationsName: string) {
     this._stomp.send("/app/" + conversationsName, {}, message);
   }
 

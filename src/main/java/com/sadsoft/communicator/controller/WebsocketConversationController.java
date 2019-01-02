@@ -1,5 +1,6 @@
 package com.sadsoft.communicator.controller;
 
+import com.sadsoft.communicator.model.dto.MessageDto;
 import com.sadsoft.communicator.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.*;
@@ -13,11 +14,12 @@ public class WebsocketConversationController {
 
     @MessageMapping("/{conversationsName}")
     @SendTo("/queue/{conversationsName}")
-    public String processMessageFromClient(@Payload String messageBody,
-                                           @DestinationVariable String conversationsName) {
+    public MessageDto processMessageFromClient(@Payload MessageDto message,
+                                               @DestinationVariable String conversationsName) {
 
+        System.out.println(message);
 
-        return messageBody;
+        return message;
     }
 
     @MessageExceptionHandler

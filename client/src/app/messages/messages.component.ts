@@ -51,7 +51,8 @@ export class MessagesComponent implements OnInit {
   private subscribe() {
     this.websocketService.unsubscribe();
     this.websocketService.subscribe(this.conversation.conversationsName, (callback) => {
-      let message: MessageModel = new MessageModel(this.sender.username, callback.body, "just now");
+      let obj = JSON.parse(callback.body);
+      let message: MessageModel = new MessageModel(obj.sendersName, obj.messageBody, obj.createdAt);
       this.conversation.messages.push(message);
     })
   }

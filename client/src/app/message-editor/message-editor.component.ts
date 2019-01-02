@@ -53,8 +53,14 @@ export class MessageEditorComponent implements OnInit {
   sendMessage() {
     this.conversationService.sendMessage(this.receiver.username, this.messageBody).subscribe(data => {
       this.message = new MessageModel(data.sendersName, data.messageBody, data.createdAt);
+      let obj = {
+        sendersName: this.message.sendersName,
+        messageBody: this.message.messageBody,
+        createdAt: this.message.createdAt
+      };
+      this.websocketService.sendMessage(JSON.stringify(obj), this.conversation.conversationsName);
     });
-    this.websocketService.sendMessage(this.messageBody, this.conversation.conversationsName);
+
   }
 
   isReceiver(): boolean {
