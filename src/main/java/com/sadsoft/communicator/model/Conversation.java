@@ -7,7 +7,9 @@ import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,14 +25,20 @@ public class Conversation {
     @JsonIgnore
     private String uniqueConversationsName;
 
+    @ManyToMany
+    private Set<User> participants = new HashSet<>();
+
     @OneToMany(
             mappedBy = "conversation",
             fetch = FetchType.EAGER
     )
-    private Set<Message> messages = new HashSet<>();
+    private List<Message> messages = new ArrayList<>();
 
-    public Conversation(String uniqueConversationsName) {
+    public Conversation(String uniqueConversationsName, User... participants) {
         this.uniqueConversationsName = uniqueConversationsName;
+        for (User participant:participants) {
+            this.participants.add(participant);
+        }
     }
 
     public void sendMessage(Message message) {

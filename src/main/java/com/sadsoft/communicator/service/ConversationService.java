@@ -28,6 +28,12 @@ public class ConversationService {
     @Autowired
     private MessageRepository messageRepository;
 
+    private Conversation getConversationByConversationsName(String conversationsName) {
+        return conversationRepository.findByUniqueConversationsName(conversationsName).orElseThrow(
+                () -> new ConversationDoseNotExistsException(conversationsName)
+        );
+    }
+
     public Message saveMessage(User sender, String messageBody, User receiver) {
 
         Message message = new Message();
@@ -35,9 +41,7 @@ public class ConversationService {
         message.setMessageBody(messageBody);
         message.setCreatedAt(new Date());
 
-        String conversationName = conversationsNameGenerator(sender, receiver);
-
-        Conversation conversation = conversationInit(conversationName);
+        Conversation conversation = initConversation(sender, receiver);
         conversation.sendMessage(message);
 
         conversationRepository.save(conversation);
@@ -48,31 +52,22 @@ public class ConversationService {
 
     public Conversation getConversation(User currentUser, User receiver) {
 
-        return conversationInit(conversationsNameGenerator(currentUser, receiver));
+        String conversationsName = conversationsNameGenerator(currentUser, receiver);
+
+        return getConversationByConversationsName(conversationsName);
     }
 
-    public Message getLastMessage(Conversation conversation) {
-
-        Iterator<Message> iterator = conversation.getMessages().iterator();
-        Message lastMessage = iterator.next();
-
-        while(iterator.hasNext()) {
-            lastMessage = iterator.next();
-        }
-        return lastMessage;
-    }
-
-    public Conversation getConversationByConversationsName(String conversationsName) {
+    public Conversation getConversation(String conversationsName) {
         return conversationRepository.findByUniqueConversationsName(conversationsName).orElseThrow(
                 () -> new ConversationDoseNotExistsException(conversationsName)
         );
     }
 
-    private Conversation conversationInit(String conversationName) {
-
-        Conversation conversation = conversationRepository.findByUniqueConversationsName(conversationName).orElseGet(
+    public Conversation initConversation(@NotNull User participant1, @NotNull User participant2) {
+        String conversationsName = conversationsNameGenerator(participant1, participant2);
+        Conversation conversation = conversationRepository.findByUniqueConversationsName(conversationsName).orElseGet(
                 () -> {
-                    return new Conversation(conversationName);
+                    return new Conversation(conversationsName, participant1, participant2);
                 }
         );
         return conversation;

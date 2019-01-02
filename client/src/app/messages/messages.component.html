@@ -3,7 +3,8 @@
 </div>
 <div class="messages">
   <div class="message" *ngFor="let message of showMessages()">
-    <p>{{message.messageBody}}</p>
+    <p class="sendersName">{{message.sendersName}}:> </p>
+    <p class="messageBody"> {{message.messageBody}}</p>
   </div>
 </div>
 

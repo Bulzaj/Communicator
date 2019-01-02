@@ -13,9 +13,9 @@ import java.util.Date;
 @AllArgsConstructor
 public class MessageDto {
 
-    @Autowired
+    /*@Autowired
     @JsonIgnore
-    private BCryptPasswordEncoder encoder;
+    private BCryptPasswordEncoder encoder*/;
 
     private String sendersName;
     private String messageBody;

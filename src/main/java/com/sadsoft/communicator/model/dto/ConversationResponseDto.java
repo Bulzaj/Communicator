@@ -5,7 +5,9 @@ import com.sadsoft.communicator.model.Message;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -13,7 +15,7 @@ import java.util.Set;
 public class ConversationResponseDto {
 
     private String conversationsName;
-    private Set<MessageDto> messages = new HashSet<>();
+    private List<MessageDto> messages = new ArrayList<>();
 
     public ConversationResponseDto(Conversation conversation) {
         conversationsName = conversation.getUniqueConversationsName();

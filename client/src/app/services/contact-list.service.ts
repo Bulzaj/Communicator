@@ -5,6 +5,7 @@ import {TokenStorageService} from "./token-storage.service";
 import {HttpService} from "./http.service";
 import {UserModel} from "../model/user.model";
 import {ContactListModel} from "../model/contact-list.model";
+import {last} from "rxjs/operators";
 
 const CONTACTS_URL = "http://localhost:8080/api/contacts";
 

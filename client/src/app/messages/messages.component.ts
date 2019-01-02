@@ -27,6 +27,7 @@ export class MessagesComponent implements OnInit {
   }
 
   private getReceiver() {
+    console.log(this.contactListService.getReceiverAsObservable());
     this.contactListService.getReceiverAsObservable().subscribe(data => {
       this.receiver = new UserModel(data.id, data.username, data.createdAt);
       this.conversationService.init(data.username)
@@ -48,10 +49,10 @@ export class MessagesComponent implements OnInit {
   }
 
   private subscribe() {
-    this.websocketService.subscribe(this.conversation.conversationsName, (message) => {
-      console.log(JSON.parse(JSON.parse(message.body.messageBody)));
-      // this.conversation.messages.push();
-      // this.conversationService.updataSubject(this.conversation)
+    this.websocketService.unsubscribe();
+    this.websocketService.subscribe(this.conversation.conversationsName, (callback) => {
+      let message: MessageModel = new MessageModel(this.sender.username, callback.body, "just now");
+      this.conversation.messages.push(message);
     })
   }
 

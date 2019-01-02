@@ -52,7 +52,6 @@ export class ConversrationService {
     let options = {
       headers: this.httpService.createAuthHeader(this.tokenStorageService.getToken())
     };
-
     return this.httpClient.post<MessageModel>(CONVERSATION_URL+"send-to/"+receiversName, messageBody, options);
   }
 }

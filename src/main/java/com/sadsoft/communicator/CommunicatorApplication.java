@@ -1,6 +1,7 @@
 package com.sadsoft.communicator;
 
 import com.sadsoft.communicator.dao.UserRepository;
+import com.sadsoft.communicator.model.Message;
 import com.sadsoft.communicator.model.User;
 import com.sadsoft.communicator.model.dto.RegLogDto;
 import com.sadsoft.communicator.service.ContactsBookService;
@@ -12,10 +13,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Set;
+import java.util.TimeZone;
+
 @SpringBootApplication
 public class CommunicatorApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(CommunicatorApplication.class, args);
     }
 

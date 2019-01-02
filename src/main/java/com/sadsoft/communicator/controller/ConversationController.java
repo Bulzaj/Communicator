@@ -33,7 +33,7 @@ public class ConversationController {
         User sender = authService.geCurrentUser(authentication);
         User receiver = authService.getUserByUsername(receiversName);
 
-        return ResponseEntity.ok(new ConversationResponseDto(conversationService.getConversation(sender, receiver)));
+        return ResponseEntity.ok(new ConversationResponseDto(conversationService.initConversation(sender, receiver)));
     }
 
     @GetMapping("/get-name/{receiversName}")

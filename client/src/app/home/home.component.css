@@ -34,3 +34,11 @@
   border-bottom: 2px lawngreen solid;
 }
 
+.message {
+  display: flex;
+}
+
+.sendersName {
+  border-right: 2px lawngreen dashed;
+}
+

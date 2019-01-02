@@ -1,6 +1,7 @@
 package com.sadsoft.communicator.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import java.util.Date;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter @Setter
 public class Message {
 
