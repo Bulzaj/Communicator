@@ -1,9 +1,9 @@
 package com.sadsoft.communicator;
 
 import com.sadsoft.communicator.dao.UserRepository;
-import com.sadsoft.communicator.model.Message;
 import com.sadsoft.communicator.model.User;
-import com.sadsoft.communicator.model.dto.RegLogDto;
+import com.sadsoft.communicator.model.dto.LogDto;
+import com.sadsoft.communicator.model.dto.RegDto;
 import com.sadsoft.communicator.service.ContactsBookService;
 import com.sadsoft.communicator.service.AuthService;
 import com.sadsoft.communicator.service.ConversationService;
@@ -12,9 +12,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import java.util.Set;
-import java.util.TimeZone;
 
 @SpringBootApplication
 public class CommunicatorApplication {
@@ -38,10 +35,10 @@ public class CommunicatorApplication {
 
             roleService.generateRoles();
 
-            authService.signUp(new RegLogDto("bulzaj", "secret"));
-            authService.signUp(new RegLogDto("fasla", "secret"));
-            authService.signUp(new RegLogDto("miska", "secret"));
-            authService.signUp(new RegLogDto("kusy", "secret"));
+            authService.signUp(new RegDto("bulzaj", "secret", "secret"));
+            authService.signUp(new RegDto("fasla", "secret", "secret"));
+            authService.signUp(new RegDto("miska", "secret", "secret"));
+            authService.signUp(new RegDto("kusy", "secret", "secret"));
 
             currentUser = userRepository.findByUsername("bulzaj").get();
             User receiver = userRepository.findByUsername("fasla").get();

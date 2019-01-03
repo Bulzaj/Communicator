@@ -2,7 +2,8 @@ package com.sadsoft.communicator.controller.auth;
 
 import com.sadsoft.communicator.model.User;
 import com.sadsoft.communicator.model.dto.AuthResponseDto;
-import com.sadsoft.communicator.model.dto.RegLogDto;
+import com.sadsoft.communicator.model.dto.LogDto;
+import com.sadsoft.communicator.model.dto.RegDto;
 import com.sadsoft.communicator.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,8 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@Valid @RequestBody RegLogDto input) {
+    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+    public ResponseEntity<?> signup(@Valid @RequestBody RegDto input) {
 
         User user = authService.signUp(input);
 
@@ -31,15 +33,13 @@ public class AuthController {
 
             return ResponseEntity.created(location).body("User registered successfully!");
         }
-
         return ResponseEntity.badRequest().body("Username already taken!");
-
     }
 
 
     @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
     @PostMapping(value = "/signin", consumes = "application/json", produces = "application/json")
-    public ResponseEntity signin(@Valid @RequestBody RegLogDto input) {
+    public ResponseEntity signin(@Valid @RequestBody LogDto input) {
 
         AuthResponseDto authResponseDto = authService.siginIn(input);
 

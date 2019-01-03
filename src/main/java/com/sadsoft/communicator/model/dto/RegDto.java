@@ -10,15 +10,17 @@ import javax.validation.constraints.Size;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegLogDto {
+public class RegDto {
 
-    @NotNull(message = "password can't be empty")
-    @Size(min = 3, max = 20, message = "username length should be between 3 and 20")
+    @NotNull
+    @Size(max = 20)
     private String username;
 
-    @NotNull(message = "password can't be emty")
-    @Size(min = 5, message = "Password is too short")
+    @NotNull
+    @Size(min = 5, message = "Password confirm is too short")
     private String password;
 
-
+    @NotNull
+    @Size(min = 5, message = "Password confirm is too short")
+    private String passwordAgain;
 }

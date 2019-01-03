@@ -25,8 +25,15 @@ export class AuthService {
     this.tokenStorage.removeToken();
   }
 
-  public register() {
+  public register(username: string, password: string, passwordAgain: string) {
 
+    let cridentials = {
+      username: username,
+      password: password,
+      passwordAgain: passwordAgain
+    }
+
+    return this.httpClient.post(AUTH_URL+"signup", cridentials)
   }
 
   public isAuthenticated(): boolean {
@@ -36,6 +43,4 @@ export class AuthService {
       return false
     }
   }
-
-
 }

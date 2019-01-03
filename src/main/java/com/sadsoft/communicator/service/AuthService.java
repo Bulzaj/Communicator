@@ -5,13 +5,15 @@ import com.sadsoft.communicator.dao.ContactsBookRepository;
 import com.sadsoft.communicator.dao.RoleRepository;
 import com.sadsoft.communicator.dao.UserRepository;
 import com.sadsoft.communicator.exceptions.PasswordDoesNotMatchException;
+import com.sadsoft.communicator.exceptions.UserAlreadyExistsException;
 import com.sadsoft.communicator.exceptions.UserDoesNotExistsException;
 import com.sadsoft.communicator.model.ContactsBook;
 import com.sadsoft.communicator.model.Role;
 import com.sadsoft.communicator.model.RoleName;
 import com.sadsoft.communicator.model.User;
 import com.sadsoft.communicator.model.dto.AuthResponseDto;
-import com.sadsoft.communicator.model.dto.RegLogDto;
+import com.sadsoft.communicator.model.dto.LogDto;
+import com.sadsoft.communicator.model.dto.RegDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,35 +47,40 @@ public class AuthService {
     @Autowired
     BCryptPasswordEncoder encoder;
 
-    public User signUp(RegLogDto input) {
+    public User signUp(RegDto input) {
 
         User user;
         ContactsBook contactsBook;
 
         if (checkUsernameAccessibility(input.getUsername())) {
 
-            contactsBook = new ContactsBook();
+            if (input.getPassword().equals(input.getPasswordAgain())) {
+                contactsBook = new ContactsBook();
 
-            user = new User();
-            user.setUsername(input.getUsername());
-            user.setPassword(encoder.encode(input.getPassword()));
+                user = new User();
+                user.setUsername(input.getUsername());
+                user.setPassword(encoder.encode(input.getPassword()));
 
-            Role role = roleRepository.findByRolename(RoleName.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Role not set."));
+                Role role = roleRepository.findByRolename(RoleName.ROLE_USER)
+                        .orElseThrow(() -> new RuntimeException("Role not set."));
 
-            user.setRoles(Collections.singleton(role));
-            user.setCreatedAt(new Date());
-            user.setContactsBook(contactsBook);
+                user.setRoles(Collections.singleton(role));
+                user.setCreatedAt(new Date());
+                user.setContactsBook(contactsBook);
 
-            contactsBookRepository.save(contactsBook);
-            User result = userRepository.save(user);
+                contactsBookRepository.save(contactsBook);
+                User result = userRepository.save(user);
 
-            return result;
+                return result;
+            } else {
+                throw new PasswordDoesNotMatchException("Passwords doesn't match. Password: " + input.getPassword() + " Password Again: " + input.getPasswordAgain());
+            }
+        } else {
+            throw new UserAlreadyExistsException(input.getUsername());
         }
-        return null;
     }
 
-    public AuthResponseDto siginIn(RegLogDto input) {
+    public AuthResponseDto siginIn(LogDto input) {
 
         User user = userRepository.findByUsername(input.getUsername()).orElseThrow(
                 () -> new UserDoesNotExistsException("User: " + input.getUsername() + " does not exists")
@@ -124,6 +131,4 @@ public class AuthService {
 
         return !userRepository.existsByUsername(username);
     }
-
-
 }

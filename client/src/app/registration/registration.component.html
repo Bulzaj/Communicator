@@ -1,0 +1,23 @@
+<div class="main-container">
+  <div class="inner-container">
+    <form>
+      <div class="form-item">
+        <input [(ngModel)]="username" name="username" type="text" placeholder="Enter username" required>
+      </div>
+      <div class="form-item">
+        <input [(ngModel)]="password" name="password" type="password" placeholder="Enter password" required>
+      </div>
+      <div class="form-item">
+        <input [(ngModel)]="passwordAgain" name="passwordAgain" type="password" placeholder="Enter password again" required>
+      </div>
+      <div class="form-item" *ngIf="fieldsValidator()">
+        <input type="submit" value="Sign up" (click)="register()">
+      </div>
+    </form>
+
+    <div id="error" [ngStyle]="{'visibility': errors != null ? 'visible' : 'hidden'}">
+      <h1>Error: </h1>
+      <p>{{errors}}</p>
+    </div>
+  </div>
+</div>
