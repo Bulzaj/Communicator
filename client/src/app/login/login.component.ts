@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.username.toString(), this.password.toString()).subscribe(data => {
       let token;
       token = data.tokenType + " " + data.accessToken;
-      this.tokenStorageService.saveToken(token)
+      this.tokenStorageService.saveToken(token);
       this.errors = "";
       this.router.navigate(['/home'])
     }, err => {

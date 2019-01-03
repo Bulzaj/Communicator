@@ -13,8 +13,15 @@ export class ContactsListComponent implements OnInit {
 
   contactList: ContactListModel;
   receiver: UserModel;
+  formVisibility: boolean;
+  input: string;
+  btnSign;
+  error: string;
+  message: string;
 
   constructor(private contactListService: ContactListService) {
+    this.formVisibility = false;
+    this.btnSign = '(+)'
   }
 
   getContacts() {
@@ -24,8 +31,29 @@ export class ContactsListComponent implements OnInit {
   getReceiver(contactsName: string) {
     this.contactListService.getReceiver(contactsName).subscribe((data: UserModel) => {
       this.receiver = new UserModel(data.id, data.username, data.createdAt);
-      this.contactListService.updateSubject(this.receiver);
+      this.contactListService.updateReceiverSubject(this.receiver);
     });
+  }
+
+  changeVisibility() {
+    if (this.formVisibility == false) {
+      this.formVisibility = true;
+      this.btnSign = 'Hide'
+    } else {
+      this.formVisibility = false;
+      this.btnSign = '(+)';
+    }
+  }
+
+  addContact() {
+    this.contactListService.addNewContact(this.input).subscribe(data => {
+      let newContact: UserModel = new UserModel(data.id, data.username, data.createdAt);
+      this.contactListService.updateContactListSubject(newContact);
+      this.error = null;
+      this.message = "Contact successfilly added";
+    }, err => {
+      this.error = err.error;
+    })
   }
 
   ngOnInit() {

@@ -5,8 +5,62 @@
   cursor: pointer;
 }
 
-.contact:hover {
+.new-contact-form {
+  border: lawngreen 1px solid;
+  margin: 10px;
+}
 
+.form-item {
+  width: 100%;
+}
+
+.form-item > input[type="text"] {
+  text-align: center;
+  color: lawngreen;
+  background: black;
+  width: 100%;
+  border-style: none;
+  border-bottom: lawngreen 1px solid;
+}
+
+.form-item > input[type="button"] {
+  background: black;
+  color: lawngreen;
+  width: 100%;
+  border-style: none;
+  border-bottom: 2px lawngreen solid;
+}
+
+.form-item > input[type="button"]:hover {
+  background: lawngreen;
+  color: black;
+}
+
+.form-item > input[type="button"]:active {
+  background: black;
+  color: lawngreen;
+  border-style: none;
+}
+
+.form-item > input::placeholder {
+  color: darkgreen;
+}
+
+.error {
+  margin-top: 5px;
+
+  text-align: center;
+}
+
+#error {
+  color: red;
+}
+
+#message {
+  color: lawngreen;
+}
+
+.contact:hover {
   background-color: lawngreen;
   color: black;
 }
@@ -14,5 +68,18 @@
 .contact:active {
 
   background-color: darkgreen;
+  color: black;
+}
+
+.new-contact-btn {
+  background: darkgreen;
+  border-bottom: 2px lawngreen dashed;
+  text-align: center;
+  color: black;
+  cursor: pointer;
+}
+
+.new-contact-btn:hover {
+  background-color: lawngreen;
   color: black;
 }

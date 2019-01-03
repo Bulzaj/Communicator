@@ -5,7 +5,6 @@ import {TokenStorageService} from "./token-storage.service";
 import {HttpService} from "./http.service";
 import {UserModel} from "../model/user.model";
 import {ContactListModel} from "../model/contact-list.model";
-import {last} from "rxjs/operators";
 
 const CONTACTS_URL = "http://localhost:8080/api/contacts";
 
@@ -16,6 +15,7 @@ export class ContactListService {
 
   private contactList: ContactListModel;
   private receiverSubject: Subject<UserModel>;
+  private contactListSubject: Subject<ContactListModel>;
   private receiverObservable: Observable<UserModel>;
 
   constructor(private http: HttpClient,
@@ -23,6 +23,7 @@ export class ContactListService {
               private httpService: HttpService) {
 
     this.contactList = new ContactListModel();
+    this.contactListSubject = new Subject<ContactListModel>();
     this.receiverSubject = new Subject<UserModel>();
     this.receiverObservable = this.receiverSubject.asObservable();
     this.init()
@@ -40,8 +41,21 @@ export class ContactListService {
     });
   }
 
-  public updateSubject(newReceiver: UserModel) {
+  public addNewContact(input: string): Observable<UserModel> {
+    let options = {
+      headers: this.httpService.createAuthHeader(this.tokenStorageService.getToken())
+    };
+
+    return this.http.post<UserModel>(CONTACTS_URL, input, options)
+  }
+
+  public updateReceiverSubject(newReceiver: UserModel) {
     this.receiverSubject.next(newReceiver)
+  }
+
+  public updateContactListSubject(newContact: UserModel) {
+    this.contactList.addContact(newContact);
+    this.contactListSubject.next(this.contactList);
   }
 
   public getReceiver(contactsName: string): Observable<UserModel> {
@@ -58,5 +72,9 @@ export class ContactListService {
 
   public getReceiverAsObservable(): Observable<UserModel> {
     return this.receiverObservable;
+  }
+
+  public getContactListAsObservable(): Observable<ContactListModel> {
+    return this.contactListSubject.asObservable();
   }
 }

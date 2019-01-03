@@ -1,5 +1,6 @@
 package com.sadsoft.communicator.controller;
 
+import com.sadsoft.communicator.exceptions.UserDoesNotExistsException;
 import com.sadsoft.communicator.model.ContactsBook;
 import com.sadsoft.communicator.model.User;
 import com.sadsoft.communicator.model.dto.FriendsListResponseDto;
@@ -54,13 +55,14 @@ public class ContactsController {
         return null;
     }
 
-    @PostMapping
-    public ResponseEntity<?> createNewContact(Authentication authentication, @RequestBody String input) {
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> createNewContact(@RequestBody String input) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = authService.geCurrentUser(authentication);
 
         try {
-            contactsBookService.addUserToContactsBook(currentUser, input);
+            User newContact = contactsBookService.addUserToContactsBook(currentUser, input);
 
             URI location = ServletUriComponentsBuilder
                     .fromCurrentContextPath()
@@ -68,11 +70,10 @@ public class ContactsController {
                     .buildAndExpand(input)
                     .toUri();
 
-            return ResponseEntity.created(location).body("New receiver added succesfully!");
+            return ResponseEntity.created(location).body(new UserResponseDto(newContact));
         } catch (Exception e) {
-            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.badRequest().body("Somethings go wrong :(");
     }
 
     @DeleteMapping

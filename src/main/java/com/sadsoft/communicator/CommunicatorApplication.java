@@ -39,6 +39,10 @@ public class CommunicatorApplication {
             authService.signUp(new RegDto("fasla", "secret", "secret"));
             authService.signUp(new RegDto("miska", "secret", "secret"));
             authService.signUp(new RegDto("kusy", "secret", "secret"));
+            authService.signUp(new RegDto("test1", "secret", "secret"));
+            authService.signUp(new RegDto("test2", "secret", "secret"));
+            authService.signUp(new RegDto("test3", "secret", "secret"));
+            authService.signUp(new RegDto("test4", "secret", "secret"));
 
             currentUser = userRepository.findByUsername("bulzaj").get();
             User receiver = userRepository.findByUsername("fasla").get();

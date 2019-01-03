@@ -2,6 +2,7 @@ package com.sadsoft.communicator.service;
 
 import com.sadsoft.communicator.dao.ContactsBookRepository;
 import com.sadsoft.communicator.dao.UserRepository;
+import com.sadsoft.communicator.exceptions.UserDoesNotExistsException;
 import com.sadsoft.communicator.model.ContactsBook;
 import com.sadsoft.communicator.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ContactsBookService {
     public User addUserToContactsBook(User currentUser, String newContactUsername) throws Exception {
 
         User newContact = userRepository.findByUsername(newContactUsername).orElseThrow(
-                ()-> new UsernameNotFoundException(newContactUsername)
+                ()-> new UserDoesNotExistsException("User: " + newContactUsername + " Does not exist")
         );
 
         ContactsBook contactsBook = contactsBookRepository.findById(currentUser.getId()).orElseThrow(

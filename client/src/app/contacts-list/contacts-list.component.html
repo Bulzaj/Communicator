@@ -1,5 +1,22 @@
-<div>
+<div class="main-container">
   <div class="contact" *ngFor="let contact of contactList.contacts" (click)="getReceiver(contact.username)">
     <h1>{{contact.username | uppercase}}</h1>
+  </div>
+  <div class="new-contact-form" *ngIf="formVisibility">
+    <form>
+      <div class="form-item">
+        <input [(ngModel)]="input" type="text" name="input" placeholder="contact's name">
+      </div>
+      <div class="form-item" *ngIf="input">
+        <input type="button" value="Add" (click)="addContact()">
+      </div>
+    </form>
+    <div class="error" *ngIf="error || message ">
+      <p id="error">{{error}}</p>
+      <p id="message">{{message}}</p>
+    </div>
+  </div>
+  <div class="new-contact-btn" (click)="changeVisibility()">
+    <h1>{{btnSign}}</h1>
   </div>
 </div>

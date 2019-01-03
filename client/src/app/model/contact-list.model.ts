@@ -11,5 +11,4 @@ export class ContactListModel {
   getContact(i: number) {
     return this.contacts[i]
   }
-
 }
